@@ -1,6 +1,6 @@
 from moviepy import VideoFileClip, TextClip, CompositeVideoClip, ImageClip
 import os
-
+from Acao import Acao
 
 def add_images_from_folder(video, folder_path="img/"):
     """
@@ -35,13 +35,13 @@ def add_images_from_folder(video, folder_path="img/"):
     return img1, img2
 
 
-def insert_ticker(video):
+def insert_ticker(video, ticker1, ticker2):
     """
     Cria variáveis de ticker no vídeo e posiciona na tela
     """
     # Criar o texto com a cotação (exemplo "Cota: R$ 10.00")
     ticker_text = TextClip(
-        text="BBAS3",
+        text=f"{ticker1}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
         font_size=30,
         color="white"
@@ -49,7 +49,7 @@ def insert_ticker(video):
 
     # Criar o texto com a cotação (exemplo "Cota: R$ 20.00")
     ticker_text2 = TextClip(
-        text="ITUB3",
+        text=f"{ticker2}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
         font_size=30,
         color="white"
@@ -62,18 +62,18 @@ def insert_ticker(video):
     return ticker_text, ticker_text2
 
 
-def insert_cota(video):
+def insert_cota(video, cota1, cota2):
     """
     Cria variáveis de cota no vídeo e posiciona na tela
     """
     cota_text = TextClip(
-        text="Cota: R$ 10.00",
+        text=f"Cota: {cota1}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",
         font_size=50,
         color="white"
     )
     cota_text2 = TextClip(
-        text="Cota: R$ 20.00",
+        text=f"Cota: {cota2}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",
         font_size=50,
         color="white"
@@ -84,18 +84,18 @@ def insert_cota(video):
     return cota_text, cota_text2
 
 
-def insert_pl(video):
+def insert_pl(video, pl1, pl2):
     """
     Cria variáveis de preço sobre lucro e posiciona no vídeo
     """
     pl_text = TextClip(
-        text="P/L: 1.00",
+        text=f"P/L: {pl1}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",
         font_size=50,
         color="white"
     )
     pl_text2 = TextClip(
-        text="P/L: 12.00",
+        text=f"P/L: {pl2}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",
         font_size=50,
         color="white"
@@ -106,18 +106,18 @@ def insert_pl(video):
     return pl_text, pl_text2
 
 
-def insert_pvp(video):
+def insert_pvp(video, pvp1, pvp2):
     """
     Cria variáveis de preço sobre valor patrimonial e posiciona no vídeo
     """
     pvp_text = TextClip(
-        text="P/VP: 1.00",
+        text=f"P/VP: {pvp1}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",
         font_size=50,
         color="white"
     )
     pvp_text2 = TextClip(
-        text="P/VP: 12.00",
+        text=f"P/VP: {pvp2}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",
         font_size=50,
         color="white"
@@ -128,18 +128,18 @@ def insert_pvp(video):
     return pvp_text, pvp_text2
 
 
-def insert_dy(video):
+def insert_dy(video, dy1, dy2):
     """
     Cria variáveis de dividend yield e posiciona no vídeo
     """
     dy_text = TextClip(
-        text="DY: 10.00%",
+        text=f"DY: {dy1}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",
         font_size=50,
         color="white"
     )
     dy_text2 = TextClip(
-        text="DY: 9,56%",
+        text=f"DY: {dy2}",
         font="C:/Windows/Fonts/ARLRDBD.ttf",
         font_size=50,
         color="white"
@@ -154,35 +154,53 @@ def main():
     # Carregar o template do vídeo
     video = VideoFileClip("templates/template_qual_das_duas_voce_investiria.mp4")
 
-    # // Cria as variáveis ticker e posiciona no vídeo
-    ticker_text, ticker_text2 = insert_ticker(video)
+    dict_exe = {
+        '1': {'ticker1': 'BBAS3.SA', 'ticker2': 'VALE3.SA'},
+        '2': {'ticker1': 'TAEE4.SA', 'ticker2': 'CPL4.SA'}
+    }
 
-    # // Cria as variáveis cotas e posiciona na tela
-    cota_text, cota_text2 = insert_cota(video)
+    # Loop para iterar sobre o dicionário de comparações
+    for num_exe, tickers in dict_exe.items():
+        ticker1 = tickers['ticker1']
+        ticker2 = tickers['ticker2']
 
-    # // Cria as variáveis Preço / Lucro e posiciona na tela
-    pl_text, pl_text2 = insert_pl(video)
+        # Criar objetos de ações
+        acao1 = Acao(f'{ticker1}.SA')
+        acao2 = Acao(f'{ticker2}.SA')
 
-    # // Cria as variáveis Preço / Valor Patrimonial
-    pvp_text, pvp_text2 = insert_pvp(video)
+        # Carregar os dados das ações
+        acao1.load_data()
+        acao2.load_data()
 
-    # // Cria as variáveis dividend yield
-    dy_text, dy_text2 = insert_dy(video)
+        # // Cria as variáveis ticker e posiciona no vídeo
+        ticker_text, ticker_text2 = insert_ticker(video)
 
-    # // Adiciona as imagens carregadas da pasta
-    img1, img2 = add_images_from_folder(video)
+        # // Cria as variáveis cotas e posiciona na tela
+        cota_text, cota_text2 = insert_cota(video)
 
-    # Renderiza o vídeo com todos os textos e imagens
-    video_editado = CompositeVideoClip([video,
-                                        ticker_text, ticker_text2,
-                                        cota_text, cota_text2,
-                                        pl_text, pl_text2,
-                                        pvp_text, pvp_text2,
-                                        dy_text, dy_text2,
-                                        img1, img2])
+        # // Cria as variáveis Preço / Lucro e posiciona na tela
+        pl_text, pl_text2 = insert_pl(video)
 
-    # Exportar o vídeo editado para um arquivo de saída
-    video_editado.write_videofile("output.mp4", codec="libx264", fps=video.fps)
+        # // Cria as variáveis Preço / Valor Patrimonial
+        pvp_text, pvp_text2 = insert_pvp(video)
+
+        # // Cria as variáveis dividend yield
+        dy_text, dy_text2 = insert_dy(video)
+
+        # // Adiciona as imagens carregadas da pasta
+        img1, img2 = add_images_from_folder(video)
+
+        # Renderiza o vídeo com todos os textos e imagens
+        video_editado = CompositeVideoClip([video,
+                                            ticker_text, ticker_text2,
+                                            cota_text, cota_text2,
+                                            pl_text, pl_text2,
+                                            pvp_text, pvp_text2,
+                                            dy_text, dy_text2,
+                                            img1, img2])
+
+        # Exportar o vídeo editado para um arquivo de saída
+        video_editado.write_videofile("output.mp4", codec="libx264", fps=video.fps)
 
 
 if __name__ == "__main__":
