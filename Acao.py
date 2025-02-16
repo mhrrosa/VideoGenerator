@@ -1,5 +1,5 @@
 import yfinance as yf
-
+from datetime import datetime
 
 class Acao:
     def __init__(self, ticker):
@@ -7,7 +7,7 @@ class Acao:
         self.cota = None  # Cotação atual
         self.pl = None  # Preço/Lucro
         self.pvp = None  # Preço/Valor Patrimonial
-        self.dy = None  # Dividend Yield anual
+        self.dy = None  # Dividend Yield anual (calculado manualmente)
 
     def load_data(self):
         """
@@ -19,9 +19,43 @@ class Acao:
 
         # Atribuindo valores aos atributos da classe
         self.cota = dados.get('currentPrice', 'Dado não disponível')
-        self.pl = dados.get('trailingPE', 'Dado não disponível')
-        self.pvp = dados.get('priceToBook', 'Dado não disponível')
-        self.dy = dados.get('dividendYield', 'Dado não disponível') * 100  # Convertendo para porcentagem
+        self.pl = self.format_data(dados.get('trailingPE', 'Dado não disponível'))
+        self.pvp = self.format_data(dados.get('priceToBook', 'Dado não disponível'))
+
+        # Calcula o Dividend Yield de 2024 com base nos dividendos pagos no ano
+        self.dy = self.calculate_dy_2024(acao)
+
+    def calculate_dy_2024(self, acao):
+        """
+        Calcula o Dividend Yield (DY) de 2024 baseado nos pagamentos reais de dividendos no ano.
+
+        :param acao: Objeto Ticker do yfinance.
+        :return: Dividend Yield em percentual (%).
+        """
+        # Obtém todos os dividendos históricos
+        dividendos = acao.dividends
+
+        if dividendos.empty:
+            return "Sem dividendos disponíveis"
+
+        # Filtrar apenas os dividendos pagos em 2024
+        dividendos_2024 = dividendos[dividendos.index.year == 2024]
+
+        # Soma dos dividendos pagos em 2024
+        total_dividendos_2024 = dividendos_2024.sum()
+
+        # Obtém a cotação atual da ação
+        try:
+            preco_atual = acao.history(period="1d")["Close"].iloc[-1]
+        except:
+            return "Preço indisponível"
+
+        # Calcula o Dividend Yield
+        if preco_atual > 0:
+            dividend_yield = (total_dividendos_2024 / preco_atual) * 100
+            return round(dividend_yield, 2)  # Arredondamos para 2 casas decimais
+        else:
+            return "Erro no cálculo"
 
     def show_data(self):
         """
@@ -31,4 +65,16 @@ class Acao:
         print(f"Cota: {self.cota}")
         print(f"P/L: {self.pl}")
         print(f"P/VP: {self.pvp}")
-        print(f"DY Anual: {self.dy}%")
+        print(f"DY Anual (2024): {self.dy}%")
+
+    def format_data(self, valor):
+        """
+        Formata um número para ter no máximo duas casas decimais.
+
+        :param valor: O número a ser formatado.
+        :return: O número formatado com no máximo duas casas decimais.
+        """
+        if isinstance(valor, (int, float)):
+            return round(valor, 2)
+        return valor
+

@@ -2,3 +2,7 @@
 .idea
 templates/
 img/
+song/
+videos/
+history/
+__pycache__/
