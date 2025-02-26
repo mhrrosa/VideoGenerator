@@ -4,7 +4,7 @@ from Acao import Acao
 import random
 from moviepy.video.fx.LumContrast import LumContrast
 
-def add_images_from_folder(video,ticker1, folder_path="img/"):
+def add_images_from_folder(video,ticker1, duration, folder_path="img/"):
     """
     Carrega duas imagens da pasta 'img/', redimensiona para o tamanho padrão e posiciona lado a lado no vídeo.
     """
@@ -22,48 +22,48 @@ def add_images_from_folder(video,ticker1, folder_path="img/"):
     img1 = ImageClip(image1_path)
 
     # Redimensionar as imagens para um tamanho padrão
-    img1 = img1.resized(height=400)  # Redimensionar para uma altura de 100 px
+    img1 = img1.resized(height=250)  # Redimensionar para uma altura de 100 px
 
     # Definir a duração das imagens
-    img1 = img1.with_duration(60)
+    img1 = img1.with_duration(duration)
 
     # Posicionar as imagens lado a lado
-    img1 = img1.with_position((video.size[0] // 2 - 180, video.size[1] // 2 - 1200))
+    img1 = img1.with_position((video.size[0] // 2 - 110, video.size[1] // 2 - 600))
 
     return img1
 
 
-def insert_ticker(video, ticker1):
+def insert_ticker(video, ticker1, duration):
     """
     Cria variáveis de ticker no vídeo e posiciona na tela
     """
     # Criar o texto com a cotação (exemplo "Cota: R$ 10.00")
     ticker_text = TextClip(
         text=f"{ticker1}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=50,
         color="white"
     )
 
     # Definir a posição do texto (mover um pouco para a esquerda e para baixo)
-    ticker_text = ticker_text.with_position((video.size[0] // 2 - 80, video.size[1] // 2 - 700)).with_duration(60)
+    ticker_text = ticker_text.with_position((video.size[0] // 2 - 80, video.size[1] // 2 - 300)).with_duration(duration)
 
     return ticker_text
 
-def insert_marca(video):
+def insert_marca(video, duration):
     """
     Cria variáveis de ticker no vídeo e posiciona na tela
     """
     # Criar o texto com a cotação (exemplo "Cota: R$ 10.00")
     ticker_text = TextClip(
         text=f"@rosa.investe",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=40,
         color="white"
     )
 
     # Definir a posição do texto (mover um pouco para a esquerda e para baixo)
-    ticker_text = ticker_text.with_position((video.size[0] // 2 - 200, video.size[1] // 2 + 800)).with_duration(60)
+    ticker_text = ticker_text.with_position((video.size[0] // 2 - 110, video.size[1] // 2 + 650)).with_duration(duration)
 
     return ticker_text
 
@@ -95,61 +95,61 @@ def get_random_template(folder_path="song/"):
     random_song = random.choice(song_files)
     return os.path.join(folder_path, random_song)
 
-def insert_title(video):
+def insert_title(video, duration):
     """
     Cria variáveis de ticker no vídeo e posiciona na tela
     """
     # Criar o texto com a cotação (exemplo "Cota: R$ 10.00")
     title_text = TextClip(
         text=f"QUANTO DE DIVIDENDO",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=110,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=65,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     title_text2 = TextClip(
         text=f"POSSO RECEBER?",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=120,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=65,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     # Definir a posição do texto (mover um pouco para a esquerda e para baixo)
-    title_text = title_text.with_position((video.size[0] // 2 - 490, video.size[1] // 2 - 1550)).with_duration(60)
-    title_text2 = title_text2.with_position((video.size[0] // 2 - 490, video.size[1] // 2 - 1380)).with_duration(60)
+    title_text = title_text.with_position((video.size[0] // 2 - 330, video.size[1] // 2 - 780)).with_duration(duration)
+    title_text2 = title_text2.with_position((video.size[0] // 2 - 330, video.size[1] // 2 - 680)).with_duration(duration)
 
 
     return title_text, title_text2
 
 
-def insert_table_fix(video, acao):
+def insert_table_fix(video, acao, duration):
     """
     Cria variáveis de ticker no vídeo e posiciona na tela
     """
-
+    size = 35
     # header
     h1 = TextClip(
         text=f"COTAS",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     h2 = TextClip(
         text=f"INVESTIDO",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     h3 = TextClip(
         text=f"DIVIDENDOS",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
@@ -158,32 +158,32 @@ def insert_table_fix(video, acao):
     # Criar o texto com a cotação (exemplo "Cota: R$ 10.00")
     t1 = TextClip(
         text=f"1",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     t2 = TextClip(
         text=f"10",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     t3 = TextClip(
         text=f"100",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     t4 = TextClip(
         text=f"1000",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
@@ -195,32 +195,32 @@ def insert_table_fix(video, acao):
 
     v1 = TextClip(
         text=f"R$ {dividendos1}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     v2 = TextClip(
         text=f"R$ {dividendos2}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     v3 = TextClip(
         text=f"R$ {dividendos3}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     v4 = TextClip(
         text=f"R$ {dividendos4}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
@@ -228,58 +228,58 @@ def insert_table_fix(video, acao):
 
     i1 = TextClip(
         text=f"R$ {investido1}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     i2 = TextClip(
         text=f"R$ {investido2}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     i3 = TextClip(
         text=f"R$ {investido3}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     i4 = TextClip(
         text=f"R$ {investido4}",
-        font="C:/Windows/Fonts/IMPACT.ttf",  # Caminho completo para o arquivo da fonte
-        font_size=80,
+        font="C:/Windows/Fonts/ARLRDBD.ttf",  # Caminho completo para o arquivo da fonte
+        font_size=size,
         color="white",
         stroke_color="black",  # Cor da borda
         stroke_width=5  # Espessura da borda
     )
     #header
-    h1 = h1.with_position((video.size[0] // 2 - 850, video.size[1] // 2 - 200)).with_duration(60)
-    h2 = h2.with_position((video.size[0] // 2 - 300, video.size[1] // 2 - 200)).with_duration(60)
-    h3 = h3.with_position((video.size[0] // 2 + 400, video.size[1] // 2 - 200)).with_duration(60)
+    h1 = h1.with_position((video.size[0] // 2 - 400, video.size[1] // 2 - 100)).with_duration(duration)
+    h2 = h2.with_position((video.size[0] // 2 - 100, video.size[1] // 2 - 100)).with_duration(duration)
+    h3 = h3.with_position((video.size[0] // 2 + 220, video.size[1] // 2 - 100)).with_duration(duration)
 
     # Definir a posição do texto (mover um pouco para a esquerda e para baixo)
     # lado - cima
-    t1 = t1.with_position((video.size[0] // 2 - 800, video.size[1] // 2 + 0)).with_duration(60)
-    t2 = t2.with_position((video.size[0] // 2 - 800, video.size[1] // 2 + 200)).with_duration(60)
-    t3 = t3.with_position((video.size[0] // 2 - 800, video.size[1] // 2 + 400)).with_duration(60)
-    t4 = t4.with_position((video.size[0] // 2 - 800, video.size[1] // 2 + 600)).with_duration(60)
+    t1 = t1.with_position((video.size[0] // 2 - 400, video.size[1] // 2 + 0)).with_duration(duration)
+    t2 = t2.with_position((video.size[0] // 2 - 400, video.size[1] // 2 + 100)).with_duration(duration)
+    t3 = t3.with_position((video.size[0] // 2 - 400, video.size[1] // 2 + 200)).with_duration(duration)
+    t4 = t4.with_position((video.size[0] // 2 - 400, video.size[1] // 2 + 300)).with_duration(duration)
 
     #valores
-    v1 = v1.with_position((video.size[0] // 2 + 480, video.size[1] // 2 + 0)).with_duration(60)
-    v2 = v2.with_position((video.size[0] // 2 + 480, video.size[1] // 2 + 200)).with_duration(60)
-    v3 = v3.with_position((video.size[0] // 2 + 480, video.size[1] // 2 + 400)).with_duration(60)
-    v4 = v4.with_position((video.size[0] // 2 + 480, video.size[1] // 2 + 600)).with_duration(60)
+    v1 = v1.with_position((video.size[0] // 2 + 220, video.size[1] // 2 + 0)).with_duration(duration)
+    v2 = v2.with_position((video.size[0] // 2 + 220, video.size[1] // 2 + 100)).with_duration(duration)
+    v3 = v3.with_position((video.size[0] // 2 + 220, video.size[1] // 2 + 200)).with_duration(duration)
+    v4 = v4.with_position((video.size[0] // 2 + 220, video.size[1] // 2 + 300)).with_duration(duration)
 
-    i1 = i1.with_position((video.size[0] // 2 - 230, video.size[1] // 2 + 0)).with_duration(60)
-    i2 = i2.with_position((video.size[0] // 2 - 230, video.size[1] // 2 + 200)).with_duration(60)
-    i3 = i3.with_position((video.size[0] // 2 - 230, video.size[1] // 2 + 400)).with_duration(60)
-    i4 = i4.with_position((video.size[0] // 2 - 230, video.size[1] // 2 + 600)).with_duration(60)
+    i1 = i1.with_position((video.size[0] // 2 - 100, video.size[1] // 2 + 0)).with_duration(duration)
+    i2 = i2.with_position((video.size[0] // 2 - 100, video.size[1] // 2 + 100)).with_duration(duration)
+    i3 = i3.with_position((video.size[0] // 2 - 100, video.size[1] // 2 + 200)).with_duration(duration)
+    i4 = i4.with_position((video.size[0] // 2 - 100, video.size[1] // 2 + 300)).with_duration(duration)
 
     return h1, h2, h3, t1, t2, t3, t4, v1, v2, v3, v4, i1, i2, i3, i4
 
@@ -287,20 +287,21 @@ def gerar():
 
     dict_exe = {
         '2': {'ticker1': 'AURE3', 'path': 'templates/template2/trilho_trem.mp4'},
-        '3': {'ticker1': 'WEGE3', 'path': 'templates/template2/trilho_trem.mp4'},
-        '4': {'ticker1': 'PETR4', 'path': 'templates/template2/trilho_trem.mp4'},
+        '3': {'ticker1': 'WEGE3', 'path': 'templates/template2/barco_mar.mp4'},
+        '4': {'ticker1': 'PETR4', 'path': 'templates/template2/ondas_mar.mp4'},
         '5': {'ticker1': 'CPLE3', 'path': 'templates/template2/flor.mp4'},
-        '6': {'ticker1': 'TAEE4', 'path': 'templates/template2/trilho_trem.mp4'},
-        '7': {'ticker1': 'VALE3', 'path': 'templates/template2/ondas_mar.mp4'},
+        '6': {'ticker1': 'TAEE4', 'path': 'templates/template2/homem_balanco.mp4'},
+        '7': {'ticker1': 'VALE3', 'path': 'templates/template2/circo.mp4'},
     }
 
+    duration = 62
     # Loop para iterar sobre o dicionário de comparações
     for num_exe, tickers in dict_exe.items():
         # Carregar o vídeo
-        video = VideoFileClip(f"{tickers['path']}").with_duration(60)
+        video = VideoFileClip(f"{tickers['path']}").with_duration(duration)
         video = video.resized(height=1920, width=1080)
         # Instanciar o efeito LumContrast corretamente
-        lum_contrast = LumContrast(lum=-50)
+        lum_contrast = LumContrast(lum=-20)
 
         # Aplicar o efeito de redução de brilho
         video = lum_contrast.apply(video)  # Chamada correta para aplicar o efeito
@@ -317,17 +318,17 @@ def gerar():
         acao1.load_data_excel()
 
         # // Cria as variáveis ticker e posiciona no vídeo
-        title_text, title_text2 = insert_title(video=video)
+        title_text, title_text2 = insert_title(video=video, duration=duration)
 
         # // Cria as variáveis ticker e posiciona no vídeo
-        ticker_text = insert_ticker(video=video, ticker1=ticker1)
+        ticker_text = insert_ticker(video=video, ticker1=ticker1, duration=duration)
 
-        marca_text = insert_marca(video=video)
+        marca_text = insert_marca(video=video, duration=duration)
 
         # // Adiciona as imagens carregadas da pasta
-        img1 = add_images_from_folder(video=video, ticker1=ticker1)
+        img1 = add_images_from_folder(video=video, ticker1=ticker1, duration=duration)
 
-        h1, h2, h3, t1, t2, t3, t4, v1, v2, v3, v4, i1, i2, i3, i4 = insert_table_fix(video=video, acao=acao1)
+        h1, h2, h3, t1, t2, t3, t4, v1, v2, v3, v4, i1, i2, i3, i4 = insert_table_fix(video=video, acao=acao1, duration=duration)
 
         # Renderiza o vídeo com todos os textos e imagens
         video_editado = CompositeVideoClip([video,

@@ -107,5 +107,6 @@ class Acao:
         investido = quantidade_cotas * self.cota
         dividendos = (self.dy / 100) * investido
 
-        return int(round(investido)), int(round(dividendos))
+        return str(round(float(investido), 3)), str(round(float(dividendos), 3))
+
 
