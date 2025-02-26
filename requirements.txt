@@ -3,3 +3,4 @@ imageio[ffmpeg]
 imageio-ffmpeg
 matplotlib
 yfinance
+alpaca-py

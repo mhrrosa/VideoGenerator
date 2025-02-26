@@ -1,5 +1,6 @@
 import yfinance as yf
 from datetime import datetime
+import pandas as pd
 
 class Acao:
     def __init__(self, ticker):
@@ -8,6 +9,7 @@ class Acao:
         self.pl = None  # Preço/Lucro
         self.pvp = None  # Preço/Valor Patrimonial
         self.dy = None  # Dividend Yield anual (calculado manualmente)
+        self.path_excel = None
 
     def load_data(self):
         """
@@ -57,6 +59,20 @@ class Acao:
         else:
             return "Erro no cálculo"
 
+    def load_data_excel(self):
+        """
+        Carrega os dados financeiros da ação usando excel
+        """
+        df = pd.read_excel(self.path_excel)
+
+        df_filtred = df[df['ticker'] == self.ticker]
+
+        # Atribuindo valores aos atributos da classe
+        self.cota = df_filtred['cota']
+        self.pl = df_filtred['pl']
+        self.pvp = df_filtred['pvp']
+        self.dy = df_filtred['dy']
+
     def show_data(self):
         """
         Exibe os dados carregados da ação
@@ -77,4 +93,19 @@ class Acao:
         if isinstance(valor, (int, float)):
             return round(valor, 2)
         return valor
+
+    def calcular_investimento_e_dividendos(self, quantidade_cotas):
+        """
+        Calcula o valor investido e o ganho em dividendos com base na quantidade de cotas.
+
+        :param quantidade_cotas: Número de cotas adquiridas.
+        :return: Tupla (investido, dividendos)
+        """
+        if self.cota is None or self.dy is None:
+            return "Dados insuficientes para cálculo"
+
+        investido = quantidade_cotas * self.cota
+        dividendos = (self.dy / 100) * investido
+
+        return int(round(investido)), int(round(dividendos))
 
